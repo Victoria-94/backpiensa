@@ -14,12 +14,13 @@ datasource db {
 }
 
 model Article {
-  id Int @unique
-  title String @unique
-  authors String
-  year Int
-  journal  String
-  description String
-  createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id                     String            @id @default(uuid()) @db.Uuid
+  title                  String            @unique
+  description            String
+  imagenUrl              String
+  authors                String
+  createDate             DateTime
+  magazine               String
+  createdAt              DateTime           @default(now())
+  updateAt               DateTime           @updatedAt
 }

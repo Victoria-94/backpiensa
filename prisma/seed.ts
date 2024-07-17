@@ -1,59 +1,44 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 
-
-
+// Initialize Prisma Client
 const prisma = new PrismaClient();
 
 async function main() {
+  // Seed Articles
   await prisma.article.createMany({
     data: [
       {
-        title: 'Advancements in Solar Energy',
-        authors: 'Alice Johnson, Bob Brown',
-        year: 2021,
-        journal: 'Renewable Energy Journal',
-        description: 'A comprehensive study on the latest advancements in solar energy technologies and their applications.'
-      },
-      {
-        title: 'The Future of Wind Power',
-        authors: 'Chris Green, Pat Yellow',
-        year: 2020,
-        journal: 'Energy Technology',
-        description: 'An analysis of the future prospects of wind power and the innovations driving the industry forward.'
-      },
-      {
-        title: 'Innovations in Battery Storage',
-        authors: 'Mary White, Tom Black',
-        year: 2019,
-        journal: 'Journal of Energy Storage',
-        description: 'Exploring the latest innovations in battery storage technology and their impact on renewable energy systems.'
-      },
-      {
-        title: 'Hydropower: Challenges and Opportunities',
+        id: uuidv4(),
+        title: 'Breaking News: AI Takes Over',
+        description: 'An in-depth look at how AI is changing the world.',
+        imagenUrl: 'https://example.com/image1.jpg',
         authors: 'John Doe, Jane Smith',
-        year: 2018,
-        journal: 'Hydro Review',
-        description: 'A detailed review of the challenges and opportunities facing the hydropower sector in the coming decades.'
+        createDate: new Date('2024-01-01T00:00:00Z'),
+        magazine: 'Tech Monthly',
       },
       {
-        title: 'The Role of AI in Smart Grids',
-        authors: 'Michael Blue, Sarah Red',
-        year: 2022,
-        journal: 'Technology and Innovation',
-        description: 'Investigating the role of artificial intelligence in the development and optimization of smart grids for renewable energy.'
-      }
-    ]
+        id: uuidv4(),
+        title: 'The Future of Space Travel',
+        description: 'Exploring the next frontier.',
+        imagenUrl: 'https://example.com/image2.jpg',
+        authors: 'Alice Johnson',
+        createDate: new Date('2024-02-01T00:00:00Z'),
+        magazine: 'Science Today',
+      },
+    ],
   });
 
-  const articles = await prisma.article.findMany();
-  console.log(articles);
+  console.log('Articles seeded successfully');
 }
 
+// Execute the main function
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })
   .finally(async () => {
+    // Close Prisma Client at the end
     await prisma.$disconnect();
   });

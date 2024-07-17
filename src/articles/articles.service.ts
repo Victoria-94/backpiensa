@@ -2,30 +2,31 @@ import { Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { BaseService } from 'src/prisma/base.service';
+import { Article } from '@prisma/client';
 
 @Injectable()
-export class ArticlesService {
-  constructor (private prisma:PrismaService){}
-  create(createArticleDto: CreateArticleDto) {
-    return 'This action adds a new article';
+export class ArticlesService extends BaseService<Article, CreateArticleDto, UpdateArticleDto>{
+  constructor(prisma: PrismaService) {
+    super(prisma, 'article');
+  }
+  async create(createArticleDto: CreateArticleDto): Promise<Article> {
+    return this.prisma.article.create({ data: createArticleDto});
   }
 
-  findAll() {
-    return this.prisma.article.findMany;
+  async findAll(): Promise<Article[]> {
+    return this.prisma.article.findMany();
   }
 
-  findOne(id: number) {
-    return this.prisma.article.findUnique({
-      where: {id},
-    })  }
-
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  async findOne(id: string): Promise<Article> {
+    return this.prisma.article.findUnique({where: { id }});
   }
 
-  remove(id: number) {
-    return this.prisma.article.delete({
-      where: {id},
-    });
+  async update(id: string, updateHeroDto: UpdateArticleDto): Promise<Article> {
+    return this.prisma.article.update({where: { id }, data: updateHeroDto });
+  }
+
+  async remove(id: string): Promise<Article> {
+    return this.prisma.article.delete({ where: { id }});
   }
 }
