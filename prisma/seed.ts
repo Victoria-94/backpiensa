@@ -1,11 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-// Initialize Prisma Client
 const prisma = new PrismaClient();
 
 async function main() {
-  // Seed Articles
+
   await prisma.article.createMany({
     data: [
       {
@@ -32,13 +31,12 @@ async function main() {
   console.log('Articles seeded successfully');
 }
 
-// Execute the main function
+
 main()
   .catch((e) => {
     console.error(e);
     process.exit(1);
   })
   .finally(async () => {
-    // Close Prisma Client at the end
     await prisma.$disconnect();
   });
